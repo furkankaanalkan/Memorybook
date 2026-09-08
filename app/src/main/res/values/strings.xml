@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">MemoryBook</string>
+    <string name="addBtn">Button</string>
+    <string name="xtrText">Extra</string>
+    <string name="nmText">Name</string>
+    <string name="dtText">Date</string>
+</resources>
