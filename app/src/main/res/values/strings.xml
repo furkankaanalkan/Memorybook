@@ -5,4 +5,5 @@
     <string name="nmText">Name</string>
     <string name="dtText">Date</string>
     <string name="newBtn"> new </string>
+    <string name="addItem">add</string>
 </resources>

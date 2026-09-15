@@ -1,5 +1,6 @@
 package com.example.memorybook;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,10 +14,10 @@ import java.util.ArrayList;
 
 public class MainActAdapter extends RecyclerView.Adapter<MainActAdapter.MainActHolder> {
 
-    ArrayList<String> deneme;
+    ArrayList<Memory> memoryArrayList;
 
-    public MainActAdapter (ArrayList<String> deneme){
-        this.deneme = deneme;
+    public MainActAdapter (ArrayList<Memory> memoryArrayList){
+        this.memoryArrayList = memoryArrayList;
     }
 
     public class MainActHolder extends RecyclerView.ViewHolder {
@@ -31,10 +32,10 @@ public class MainActAdapter extends RecyclerView.Adapter<MainActAdapter.MainActH
     }
 
     public int getItemCount(){
-        if (deneme == null){
+        if (memoryArrayList == null){
             return 0;
         }
-        return deneme.size();
+        return memoryArrayList.size();
     }
 
     @NonNull
@@ -48,10 +49,14 @@ public class MainActAdapter extends RecyclerView.Adapter<MainActAdapter.MainActH
     @Override
     public void  onBindViewHolder(MainActAdapter.MainActHolder holder , int position){
 
+        holder.binding.layoutRow.setText(memoryArrayList.get(position).name);
         holder.itemView.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-                int adapterPosition = holder.getAdapterPosition();
+                Intent intent = new Intent(holder.itemView.getContext(),ExplainActivity.class);
+                intent.putExtra("artId",memoryArrayList.get(position).id);
+                intent.putExtra("info","old");
+                holder.itemView.getContext().startActivity(intent);
 
 
             }

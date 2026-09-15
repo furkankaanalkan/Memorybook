@@ -30,7 +30,6 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.memorybook.databinding.ActivityExplainBinding;
-import com.example.memorybook.databinding.ActivityMainBinding;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.io.ByteArrayOutputStream;
@@ -113,9 +112,6 @@ public class ExplainActivity extends AppCompatActivity {
 
 
     public void selectImage(View view) {
-
-
-
         //Android 13
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_MEDIA_IMAGES) != PackageManager.PERMISSION_GRANTED) {
@@ -154,53 +150,46 @@ public class ExplainActivity extends AppCompatActivity {
     }
 
     public void registerLauncher() {
-        activityResultLauncher = registerForActivityResult(
-                new ActivityResultContracts.StartActivityForResult(),
-                new ActivityResultCallback<ActivityResult>() {
-                    @Override
-                    public void onActivityResult(ActivityResult result) {
-                        if (result.getResultCode() == Activity.RESULT_OK) {
-                            Intent intentFromResult = result.getData();
-                            if (intentFromResult != null) {
-                                Uri imageData = intentFromResult.getData();
-                                try {
-
-                                    if (Build.VERSION.SDK_INT >= 28) {
-                                        ImageDecoder.Source source = ImageDecoder.createSource(ExplainActivity.this.getContentResolver(),imageData);
-                                        selectedImage = ImageDecoder.decodeBitmap(source);
-                                        binding.imageView.setImageBitmap(selectedImage);
-
-                                    } else {
-                                        selectedImage = MediaStore.Images.Media.getBitmap(  ExplainActivity.this.getContentResolver(),imageData);
-                                        binding.imageView.setImageBitmap(selectedImage);
-                                    }
-
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                }
+        activityResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
+            @Override
+            public void onActivityResult(ActivityResult result) {
+                if (result.getResultCode() == Activity.RESULT_OK) {
+                    Intent intentFromResult = result.getData();
+                    if (intentFromResult != null) {
+                        Uri imageData = intentFromResult.getData();
+                        try {
+                            if (Build.VERSION.SDK_INT >= 28) {
+                                ImageDecoder.Source source = ImageDecoder.createSource(ExplainActivity.this.getContentResolver(),imageData);
+                                selectedImage = ImageDecoder.decodeBitmap(source);
+                                binding.imageView.setImageBitmap(selectedImage);
+                            } else {
+                                selectedImage = MediaStore.Images.Media.getBitmap(  ExplainActivity.this.getContentResolver(),imageData);
+                                binding.imageView.setImageBitmap(selectedImage);
                             }
-
+                        } catch (IOException e) {
+                            e.printStackTrace();
                         }
                     }
-                });
+                }
+            }
+        });
 
 
-        permissionLauncher =
-                registerForActivityResult(new ActivityResultContracts.RequestPermission(), new ActivityResultCallback<Boolean>() {
-                    @Override
-                    public void onActivityResult(Boolean result) {
-                        if(result) {
-                            //permission granted
-                            Intent intentToGallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                            activityResultLauncher.launch(intentToGallery);
+        permissionLauncher = registerForActivityResult(new ActivityResultContracts.RequestPermission(), new ActivityResultCallback<Boolean>() {
+            @Override
+            public void onActivityResult(Boolean result) {
+                if(result) {
+                    //permission granted
+                    Intent intentToGallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                    activityResultLauncher.launch(intentToGallery);
 
-                        } else {
-                            //permission denied
-                            Toast.makeText(ExplainActivity.this,"Permisson needed!",Toast.LENGTH_LONG).show();
-                        }
-                    }
+                } else {
+                    //permission denied
+                    Toast.makeText(ExplainActivity.this,"Permisson needed!",Toast.LENGTH_LONG).show();
+                }
+            }
 
-                });
+        });
     }
 
 
