@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
             SQLiteDatabase database = this.openOrCreateDatabase("Arts",MODE_PRIVATE,null);
 
             Cursor cursor = database.rawQuery("SELECT * FROM arts", null);
-            int nameIx = cursor.getColumnIndex("artname");
+            int nameIx = cursor.getColumnIndex("memoryName");
             int idIx = cursor.getColumnIndex("id");
 
             while (cursor.moveToNext()) {
@@ -66,7 +66,6 @@ public class MainActivity extends AppCompatActivity {
 
             cursor.close();
         } catch (Exception e) {
-            // hatanın ne oldugunu log kette görmek için
             e.printStackTrace();
         }
 

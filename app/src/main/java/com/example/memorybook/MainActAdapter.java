@@ -49,12 +49,12 @@ public class MainActAdapter extends RecyclerView.Adapter<MainActAdapter.MainActH
     @Override
     public void  onBindViewHolder(MainActAdapter.MainActHolder holder , int position){
 
-        holder.binding.layoutRow.setText(memoryArrayList.get(position).name);
+        holder.binding.layoutRow.setText(memoryArrayList.get(position).getName());
         holder.itemView.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
                 Intent intent = new Intent(holder.itemView.getContext(),ExplainActivity.class);
-                intent.putExtra("artId",memoryArrayList.get(position).id);
+                intent.putExtra("memoryId", memoryArrayList.get(holder.getAdapterPosition()).getId());
                 intent.putExtra("info","old");
                 holder.itemView.getContext().startActivity(intent);
 

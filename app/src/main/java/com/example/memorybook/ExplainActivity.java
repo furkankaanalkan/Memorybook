@@ -59,7 +59,7 @@ public class ExplainActivity extends AppCompatActivity {
 
         registerLauncher();
 
-        database = this.openOrCreateDatabase("Arts",MODE_PRIVATE,null);
+        database = this.openOrCreateDatabase("Memories",MODE_PRIVATE,null);
 
 
 
@@ -77,23 +77,23 @@ public class ExplainActivity extends AppCompatActivity {
 
 
         } else {
-            int artId = intent.getIntExtra("artId",1);
+            int memoryId = intent.getIntExtra("memoryId",1);
             binding.newButton.setVisibility(View.INVISIBLE);
 
             try {
 
-                Cursor cursor = database.rawQuery("SELECT * FROM arts WHERE id = ?",new String[] {String.valueOf(artId)});
+                Cursor cursor = database.rawQuery("SELECT * FROM Memories WHERE id = ?",new String[] {String.valueOf(memoryId)});
 
-                int artNameIx = cursor.getColumnIndex("artname");
-                int painterNameIx = cursor.getColumnIndex("paintername");
-                int yearIx = cursor.getColumnIndex("year");
+                int nameIx = cursor.getColumnIndex("memoryName");
+                int dateIx = cursor.getColumnIndex("date");
+                int extraIx = cursor.getColumnIndex("extra");
                 int imageIx = cursor.getColumnIndex("image");
 
                 while (cursor.moveToNext()) {
 
-                    binding.nameText.setText(cursor.getString(artNameIx));
-                    binding.dateText.setText(cursor.getString(painterNameIx));
-                    binding.extraText.setText(cursor.getString(yearIx));
+                    binding.nameText.setText(cursor.getString(nameIx));
+                    binding.dateText.setText(cursor.getString(dateIx));
+                    binding.extraText.setText(cursor.getString(extraIx));
 
                     byte[] bytes = cursor.getBlob(imageIx);
                     Bitmap bitmap = BitmapFactory.decodeByteArray(bytes,0,bytes.length);
@@ -195,9 +195,9 @@ public class ExplainActivity extends AppCompatActivity {
 
     public void save(View view) {
 
-        String artName = binding.nameText.getText().toString();
-        String painterName = binding.dateText.getText().toString();
-        String year = binding.extraText.getText().toString();
+        String name = binding.nameText.getText().toString();
+        String date = binding.dateText.getText().toString();
+        String extra = binding.extraText.getText().toString();
 
         Bitmap smallImage = makeSmallerImage(selectedImage,300);
 
@@ -207,20 +207,20 @@ public class ExplainActivity extends AppCompatActivity {
 
         try {
 
-            database = this.openOrCreateDatabase("Arts",MODE_PRIVATE,null);
-            database.execSQL("CREATE TABLE IF NOT EXISTS arts (id INTEGER PRIMARY KEY,artname VARCHAR, paintername VARCHAR, year VARCHAR, image BLOB)");
+            database = this.openOrCreateDatabase("Memories",MODE_PRIVATE,null);
+            database.execSQL("CREATE TABLE IF NOT EXISTS Memories (id INTEGER PRIMARY KEY,memoryName VARCHAR, date VARCHAR, extra VARCHAR, image BLOB)");
 
-            String sqlString = "INSERT INTO arts (artname, paintername, year, image) VALUES (?, ?, ?, ?)";
+            String sqlString = "INSERT INTO Memories (memoryName, date, extra, image) VALUES (?, ?, ?, ?)";
             SQLiteStatement sqLiteStatement = database.compileStatement(sqlString);
-            sqLiteStatement.bindString(1,artName);
-            sqLiteStatement.bindString(2,painterName);
-            sqLiteStatement.bindString(3,year);
+            sqLiteStatement.bindString(1,name);
+            sqLiteStatement.bindString(2,date);
+            sqLiteStatement.bindString(3,extra);
             sqLiteStatement.bindBlob(4,byteArray);
             sqLiteStatement.execute();
 
 
         } catch (Exception e) {
-
+            e.printStackTrace();
         }
 
         Intent intent = new Intent(ExplainActivity.this,MainActivity.class);
