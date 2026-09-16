@@ -40,6 +40,11 @@ public class MainActivity extends AppCompatActivity {
         });
         memoryList = new ArrayList<Memory>();
 
+        binding.recyclerMain.setLayoutManager(new androidx.recyclerview.widget.LinearLayoutManager(this));
+        mainActAdapter = new MainActAdapter(memoryList);
+        binding.recyclerMain.setAdapter(mainActAdapter);
+        getData();
+
     }
 
     public  void addButton(View view){
@@ -50,9 +55,9 @@ public class MainActivity extends AppCompatActivity {
     public void getData() {
 
         try {
-            SQLiteDatabase database = this.openOrCreateDatabase("Arts",MODE_PRIVATE,null);
+            SQLiteDatabase database = this.openOrCreateDatabase("Memories",MODE_PRIVATE,null);
 
-            Cursor cursor = database.rawQuery("SELECT * FROM arts", null);
+            Cursor cursor = database.rawQuery("SELECT * FROM Memories", null);
             int nameIx = cursor.getColumnIndex("memoryName");
             int idIx = cursor.getColumnIndex("id");
 
