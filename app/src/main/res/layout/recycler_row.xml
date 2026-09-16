@@ -23,6 +23,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:textAlignment="center"
             android:fontFamily="sans-serif-black"
             android:letterSpacing="0.05"
             android:textColor="#1F2937"
