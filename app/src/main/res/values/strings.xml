@@ -10,4 +10,5 @@
     <string name="dateHint">enter date</string>
     <string name="extraHint">enter extra info</string>
     <string name="editBtn">edit</string>
+    <string name="homeBtn"> Main Page</string>
 </resources>

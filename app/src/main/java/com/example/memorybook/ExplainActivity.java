@@ -305,6 +305,10 @@ public class ExplainActivity extends AppCompatActivity {
         binding.editButton.setVisibility(View.GONE);
         binding.newButton.setVisibility(View.VISIBLE);
     }
+    public void goHome(View view){
+        Intent intent = new Intent(ExplainActivity.this,MainActivity.class);
+        startActivity(intent);
+    }
     public Bitmap makeSmallerImage(Bitmap image, int maximumSize) {
 
         int width = image.getWidth();
