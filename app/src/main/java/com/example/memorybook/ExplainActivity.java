@@ -34,6 +34,9 @@ import com.google.android.material.snackbar.Snackbar;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 public class ExplainActivity extends AppCompatActivity {
     private ActivityExplainBinding binding;
@@ -47,14 +50,47 @@ public class ExplainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
+
         binding = ActivityExplainBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
         setContentView(view);
+
+        binding.dateText.addTextChangedListener(new android.text.TextWatcher() {
+            boolean isUpdating = false;
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (isUpdating) {
+                    return;
+                }
+                String currentText = s.toString().replace("/", "");
+                StringBuilder formatted = new StringBuilder();
+
+                for (int i = 0; i < currentText.length(); i++) {
+                    formatted.append(currentText.charAt(i));
+                    if ((i == 1 || i == 3) && i != currentText.length() - 1) {
+                        formatted.append("/");
+                    }
+                }
+                isUpdating = true;
+                binding.dateText.setText(formatted.toString());
+                binding.dateText.setSelection(formatted.length());
+                isUpdating = false;}
+            @Override
+            public void afterTextChanged(android.text.Editable s) {}
+        });
+
         ViewCompat.setOnApplyWindowInsetsListener(binding.main, (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+        String currentDate = sdf.format(new Date());
+
+        binding.dateText.setText(currentDate);
 
 
         registerLauncher();

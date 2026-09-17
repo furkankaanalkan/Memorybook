@@ -6,4 +6,7 @@
     <string name="dtText">Date</string>
     <string name="newBtn"> new </string>
     <string name="addItem">add</string>
+    <string name="nameHint">enter name</string>
+    <string name="dateHint">enter date</string>
+    <string name="extraHint">enter extra info</string>
 </resources>

@@ -12,7 +12,7 @@
         android:layout_width="149dp"
         android:layout_height="49dp"
         android:layout_marginBottom="116dp"
-        android:hint="Extra"
+        android:hint="@string/extraHint"
         android:text="@string/xtrText"
         android:textAlignment="center"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -25,7 +25,7 @@
         android:layout_width="145dp"
         android:layout_height="48dp"
         android:layout_marginBottom="50dp"
-        android:hint="Name"
+        android:hint="@string/nameHint"
         android:text="@string/nmText"
         android:textAlignment="center"
         app:layout_constraintBottom_toTopOf="@+id/dateText"
@@ -34,15 +34,18 @@
 
     <EditText
         android:id="@+id/dateText"
+        android:text="@string/dtText"
         android:layout_width="148dp"
         android:layout_height="48dp"
         android:layout_marginBottom="50dp"
-        android:hint="Date"
-        android:text="@string/dtText"
+        android:hint="@string/dateHint"
         android:textAlignment="center"
         app:layout_constraintBottom_toTopOf="@+id/extraText"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        android:inputType="date"
+        android:maxLength="10"
+        />
 
     <ImageView
         android:id="@+id/imageView"
