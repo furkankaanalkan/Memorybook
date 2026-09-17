@@ -4,9 +4,10 @@
     <string name="xtrText">Extra</string>
     <string name="nmText">Name</string>
     <string name="dtText">Date</string>
-    <string name="newBtn"> new </string>
+    <string name="newBtn">new</string>
     <string name="addItem">add</string>
     <string name="nameHint">enter name</string>
     <string name="dateHint">enter date</string>
     <string name="extraHint">enter extra info</string>
+    <string name="editBtn">edit</string>
 </resources>

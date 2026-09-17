@@ -1,121 +1,258 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
     xmlns:app="http://schemas.android.com/apk/res-auto"
+
     xmlns:tools="http://schemas.android.com/tools"
+
     android:id="@+id/main"
+
     android:layout_width="match_parent"
+
     android:layout_height="match_parent"
+
     android:background="#F8F9FA"
+
     tools:context=".ExplainActivity">
 
+
     <!-- Resmi Yuvarlak Köşeli Yapmak İçin CardView İçine Aldık -->
-    <androidx.cardview.widget.CardView
-        android:id="@+id/imageContainer"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
-        android:layout_marginTop="32dp"
-        app:cardCornerRadius="24dp"
-        app:cardElevation="0dp"
+
+
+    <com.google.android.material.button.MaterialButton
+
+        android:id="@+id/editButton"
+
+        android:layout_width="0dp"
+
+        android:layout_height="60dp"
+
+        android:layout_marginHorizontal="32dp"
+
+        android:layout_marginBottom="8dp"
+
+        android:onClick="edit"
+
+        android:text="@string/editBtn"
+
+        android:textSize="16sp"
+
+        app:cornerRadius="16dp"
+
+        app:layout_constraintBottom_toTopOf="@+id/newButton"
+
         app:layout_constraintEnd_toEndOf="parent"
+
+        app:layout_constraintStart_toStartOf="parent" />
+
+
+    <androidx.cardview.widget.CardView
+
+        android:id="@+id/imageContainer"
+
+        android:layout_width="200dp"
+
+        android:layout_height="200dp"
+
+        android:layout_marginTop="32dp"
+
+        app:cardCornerRadius="24dp"
+
+        app:cardElevation="0dp"
+
+        app:layout_constraintEnd_toEndOf="parent"
+
         app:layout_constraintStart_toStartOf="parent"
+
         app:layout_constraintTop_toTopOf="parent">
 
+
         <ImageView
+
             android:id="@+id/imageView"
+
             android:layout_width="match_parent"
+
             android:layout_height="match_parent"
+
             android:onClick="selectImage"
+
             android:scaleType="centerCrop"
+
             tools:srcCompat="@tools:sample/backgrounds/scenic" />
+
     </androidx.cardview.widget.CardView>
+
     <androidx.cardview.widget.CardView
+
         android:layout_width="0dp"
+
         android:layout_height="wrap_content"
+
         android:layout_marginHorizontal="24dp"
+
         android:layout_marginTop="32dp"
+
         app:cardCornerRadius="20dp"
+
         app:cardElevation="3dp"
+
         app:layout_constraintEnd_toEndOf="parent"
+
         app:layout_constraintStart_toStartOf="parent"
+
         app:layout_constraintTop_toBottomOf="@+id/imageContainer">
 
+
         <LinearLayout
+
             android:layout_width="match_parent"
+
             android:layout_height="wrap_content"
+
             android:orientation="vertical"
+
             android:padding="20dp">
 
+
             <!-- Modern Material Metin Kutusu (İsim) -->
+
             <com.google.android.material.textfield.TextInputLayout
+
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+
                 android:layout_width="match_parent"
+
                 android:layout_height="wrap_content"
+
                 app:boxCornerRadiusBottomEnd="12dp"
+
                 app:boxCornerRadiusBottomStart="12dp"
+
                 app:boxCornerRadiusTopEnd="12dp"
+
                 app:boxCornerRadiusTopStart="12dp"
+
                 android:hint="@string/nameHint">
 
+
                 <com.google.android.material.textfield.TextInputEditText
+
                     android:id="@+id/nameText"
+
                     android:layout_width="match_parent"
+
                     android:layout_height="wrap_content"
+
                     android:inputType="textPersonName" />
+
             </com.google.android.material.textfield.TextInputLayout>
 
+
             <com.google.android.material.textfield.TextInputLayout
+
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+
                 android:layout_width="match_parent"
+
                 android:layout_height="wrap_content"
+
                 android:layout_marginTop="12dp"
+
                 app:boxCornerRadiusBottomEnd="12dp"
+
                 app:boxCornerRadiusBottomStart="12dp"
+
                 app:boxCornerRadiusTopEnd="12dp"
+
                 app:boxCornerRadiusTopStart="12dp"
+
                 android:hint="@string/dateHint">
 
+
                 <com.google.android.material.textfield.TextInputEditText
+
                     android:id="@+id/dateText"
+
                     android:layout_width="match_parent"
+
                     android:layout_height="wrap_content"
+
                     android:inputType="date"
+
                     android:maxLength="10" />
+
             </com.google.android.material.textfield.TextInputLayout>
+
 
             <!-- Modern Material Metin Kutusu (Ekstra) -->
+
             <com.google.android.material.textfield.TextInputLayout
+
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+
                 android:layout_width="match_parent"
+
                 android:layout_height="wrap_content"
+
                 android:layout_marginTop="12dp"
+
                 app:boxCornerRadiusBottomEnd="12dp"
+
                 app:boxCornerRadiusBottomStart="12dp"
+
                 app:boxCornerRadiusTopEnd="12dp"
+
                 app:boxCornerRadiusTopStart="12dp"
+
                 android:hint="@string/extraHint">
 
+
                 <com.google.android.material.textfield.TextInputEditText
+
                     android:id="@+id/extraText"
+
                     android:layout_width="match_parent"
+
                     android:layout_height="wrap_content"
+
                     android:inputType="textMultiLine" />
+
             </com.google.android.material.textfield.TextInputLayout>
+
         </LinearLayout>
+
     </androidx.cardview.widget.CardView>
 
+
     <!-- Kaydet Butonu -->
+
     <com.google.android.material.button.MaterialButton
+
         android:id="@+id/newButton"
+
         android:layout_width="0dp"
+
         android:layout_height="60dp"
+
         android:layout_marginHorizontal="32dp"
+
         android:layout_marginBottom="32dp"
+
         android:onClick="save"
+
         android:text="@string/newBtn"
+
         android:textSize="16sp"
+
         app:cornerRadius="16dp"
+
         app:layout_constraintBottom_toBottomOf="parent"
+
         app:layout_constraintEnd_toEndOf="parent"
+
         app:layout_constraintStart_toStartOf="parent" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
