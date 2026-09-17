@@ -1,258 +1,170 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-
     xmlns:app="http://schemas.android.com/apk/res-auto"
-
     xmlns:tools="http://schemas.android.com/tools"
-
     android:id="@+id/main"
-
     android:layout_width="match_parent"
-
     android:layout_height="match_parent"
-
-    android:background="#F8F9FA"
-
+    android:background="#1A1A2E"
     tools:context=".ExplainActivity">
 
-
-    <!-- Resmi Yuvarlak Köşeli Yapmak İçin CardView İçine Aldık -->
-
-
-    <com.google.android.material.button.MaterialButton
-
-        android:id="@+id/editButton"
-
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/formCard"
         android:layout_width="0dp"
-
-        android:layout_height="60dp"
-
-        android:layout_marginHorizontal="32dp"
-
-        android:layout_marginBottom="8dp"
-
-        android:onClick="edit"
-
-        android:text="@string/editBtn"
-
-        android:textSize="16sp"
-
-        app:cornerRadius="16dp"
-
-        app:layout_constraintBottom_toTopOf="@+id/newButton"
-
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="36dp"
+        android:layout_marginTop="120dp"
+        app:cardBackgroundColor="#16213E"
+        app:cardCornerRadius="32dp"
+        app:cardElevation="8dp"
+        app:strokeWidth="0dp"
         app:layout_constraintEnd_toEndOf="parent"
-
-        app:layout_constraintStart_toStartOf="parent" />
-
-
-    <androidx.cardview.widget.CardView
-
-        android:id="@+id/imageContainer"
-
-        android:layout_width="200dp"
-
-        android:layout_height="200dp"
-
-        android:layout_marginTop="32dp"
-
-        app:cardCornerRadius="24dp"
-
-        app:cardElevation="0dp"
-
-        app:layout_constraintEnd_toEndOf="parent"
-
         app:layout_constraintStart_toStartOf="parent"
-
         app:layout_constraintTop_toTopOf="parent">
 
-
-        <ImageView
-
-            android:id="@+id/imageView"
-
-            android:layout_width="match_parent"
-
-            android:layout_height="match_parent"
-
-            android:onClick="selectImage"
-
-            android:scaleType="centerCrop"
-
-            tools:srcCompat="@tools:sample/backgrounds/scenic" />
-
-    </androidx.cardview.widget.CardView>
-
-    <androidx.cardview.widget.CardView
-
-        android:layout_width="0dp"
-
-        android:layout_height="wrap_content"
-
-        android:layout_marginHorizontal="24dp"
-
-        android:layout_marginTop="32dp"
-
-        app:cardCornerRadius="20dp"
-
-        app:cardElevation="3dp"
-
-        app:layout_constraintEnd_toEndOf="parent"
-
-        app:layout_constraintStart_toStartOf="parent"
-
-        app:layout_constraintTop_toBottomOf="@+id/imageContainer">
-
-
         <LinearLayout
-
             android:layout_width="match_parent"
-
             android:layout_height="wrap_content"
-
             android:orientation="vertical"
-
-            android:padding="20dp">
-
-
-            <!-- Modern Material Metin Kutusu (İsim) -->
+            android:paddingHorizontal="24dp"
+            android:paddingTop="100dp"
+            android:paddingBottom="40dp">
 
             <com.google.android.material.textfield.TextInputLayout
-
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-
                 android:layout_width="match_parent"
-
                 android:layout_height="wrap_content"
-
-                app:boxCornerRadiusBottomEnd="12dp"
-
-                app:boxCornerRadiusBottomStart="12dp"
-
-                app:boxCornerRadiusTopEnd="12dp"
-
-                app:boxCornerRadiusTopStart="12dp"
-
-                android:hint="@string/nameHint">
-
+                app:boxBackgroundColor="#232B4C"
+                app:boxCornerRadiusBottomEnd="20dp"
+                app:boxCornerRadiusBottomStart="20dp"
+                app:boxCornerRadiusTopEnd="20dp"
+                app:boxCornerRadiusTopStart="20dp"
+                app:boxStrokeColor="#E94560"
+                app:boxStrokeWidth="0dp"
+                app:boxStrokeWidthFocused="1.5dp"
+                app:hintEnabled="false">
 
                 <com.google.android.material.textfield.TextInputEditText
-
                     android:id="@+id/nameText"
-
                     android:layout_width="match_parent"
-
                     android:layout_height="wrap_content"
-
-                    android:inputType="textPersonName" />
-
+                    android:hint="@string/nameHint"
+                    android:textColorHint="#8A92A6"
+                    android:inputType="textPersonName"
+                    android:textColor="#FFFFFF"
+                    android:paddingVertical="18dp"
+                    android:paddingHorizontal="16dp" />
             </com.google.android.material.textfield.TextInputLayout>
 
-
             <com.google.android.material.textfield.TextInputLayout
-
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-
                 android:layout_width="match_parent"
-
                 android:layout_height="wrap_content"
-
-                android:layout_marginTop="12dp"
-
-                app:boxCornerRadiusBottomEnd="12dp"
-
-                app:boxCornerRadiusBottomStart="12dp"
-
-                app:boxCornerRadiusTopEnd="12dp"
-
-                app:boxCornerRadiusTopStart="12dp"
-
-                android:hint="@string/dateHint">
-
+                android:layout_marginTop="24dp"
+                app:boxBackgroundColor="#232B4C"
+                app:boxCornerRadiusBottomEnd="20dp"
+                app:boxCornerRadiusBottomStart="20dp"
+                app:boxCornerRadiusTopEnd="20dp"
+                app:boxCornerRadiusTopStart="20dp"
+                app:boxStrokeColor="#E94560"
+                app:boxStrokeWidth="0dp"
+                app:boxStrokeWidthFocused="1.5dp"
+                app:hintEnabled="false">
 
                 <com.google.android.material.textfield.TextInputEditText
-
                     android:id="@+id/dateText"
-
                     android:layout_width="match_parent"
-
                     android:layout_height="wrap_content"
-
+                    android:hint="@string/dateHint"
+                    android:textColorHint="#8A92A6"
                     android:inputType="date"
-
-                    android:maxLength="10" />
-
+                    android:maxLength="10"
+                    android:textColor="#FFFFFF"
+                    android:paddingVertical="18dp"
+                    android:paddingHorizontal="16dp" />
             </com.google.android.material.textfield.TextInputLayout>
-
-
-            <!-- Modern Material Metin Kutusu (Ekstra) -->
 
             <com.google.android.material.textfield.TextInputLayout
-
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-
                 android:layout_width="match_parent"
-
                 android:layout_height="wrap_content"
-
-                android:layout_marginTop="12dp"
-
-                app:boxCornerRadiusBottomEnd="12dp"
-
-                app:boxCornerRadiusBottomStart="12dp"
-
-                app:boxCornerRadiusTopEnd="12dp"
-
-                app:boxCornerRadiusTopStart="12dp"
-
-                android:hint="@string/extraHint">
-
+                android:layout_marginTop="24dp"
+                app:boxBackgroundColor="#232B4C"
+                app:boxCornerRadiusBottomEnd="20dp"
+                app:boxCornerRadiusBottomStart="20dp"
+                app:boxCornerRadiusTopEnd="20dp"
+                app:boxCornerRadiusTopStart="20dp"
+                app:boxStrokeColor="#E94560"
+                app:boxStrokeWidth="0dp"
+                app:boxStrokeWidthFocused="1.5dp"
+                app:hintEnabled="false">
 
                 <com.google.android.material.textfield.TextInputEditText
-
                     android:id="@+id/extraText"
-
                     android:layout_width="match_parent"
-
                     android:layout_height="wrap_content"
-
-                    android:inputType="textMultiLine" />
-
+                    android:hint="@string/extraHint"
+                    android:textColorHint="#8A92A6"
+                    android:gravity="top|start"
+                    android:inputType="textMultiLine"
+                    android:minLines="3"
+                    android:textColor="#FFFFFF"
+                    android:paddingVertical="18dp"
+                    android:paddingHorizontal="16dp" />
             </com.google.android.material.textfield.TextInputLayout>
-
         </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
 
-    </androidx.cardview.widget.CardView>
-
-
-    <!-- Kaydet Butonu -->
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/imageView"
+        android:layout_width="140dp"
+        android:layout_height="140dp"
+        android:elevation="12dp"
+        android:onClick="selectImage"
+        android:scaleType="centerCrop"
+        app:layout_constraintBottom_toTopOf="@+id/formCard"
+        app:layout_constraintEnd_toEndOf="@+id/formCard"
+        app:layout_constraintStart_toStartOf="@+id/formCard"
+        app:layout_constraintTop_toTopOf="@+id/formCard"
+        app:cornerSize="24dp"
+        app:strokeColor="#E94560"
+        app:strokeWidth="3dp"
+        tools:srcCompat="@tools:sample/avatars" />
 
     <com.google.android.material.button.MaterialButton
-
         android:id="@+id/newButton"
-
         android:layout_width="0dp"
-
-        android:layout_height="60dp"
-
-        android:layout_marginHorizontal="32dp"
-
+        android:layout_height="64dp"
+        android:layout_marginHorizontal="36dp"
         android:layout_marginBottom="32dp"
-
         android:onClick="save"
-
         android:text="@string/newBtn"
-
-        android:textSize="16sp"
-
-        app:cornerRadius="16dp"
-
+        android:textColor="#FFFFFF"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:backgroundTint="#E94560"
+        app:cornerRadius="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
-
         app:layout_constraintEnd_toEndOf="parent"
-
         app:layout_constraintStart_toStartOf="parent" />
 
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/editButton"
+        android:layout_width="0dp"
+        android:layout_height="64dp"
+        android:layout_marginHorizontal="36dp"
+        android:layout_marginBottom="32dp"
+        android:onClick="edit"
+        android:text="@string/editBtn"
+        android:textColor="#1A1A2E"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:visibility="gone"
+        app:backgroundTint="#4ECCA3"
+        app:cornerRadius="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:visibility="visible" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
