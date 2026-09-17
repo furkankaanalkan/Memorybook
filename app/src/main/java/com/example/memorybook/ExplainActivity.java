@@ -115,36 +115,63 @@ public class ExplainActivity extends AppCompatActivity {
 
 
         } else {
-            int memoryId = intent.getIntExtra("memoryId",1);
-            binding.newButton.setVisibility(View.INVISIBLE);
+            if (binding.extraText.getText().toString().equals("")){
+                int memoryId = intent.getIntExtra("memoryId",1);
+                binding.newButton.setVisibility(View.INVISIBLE);
+                binding.extraText.setVisibility(View.GONE);
 
-            try {
+                try {
+                    Cursor cursor = database.rawQuery("SELECT * FROM Memories WHERE id = ?",new String[] {String.valueOf(memoryId)});
 
-                Cursor cursor = database.rawQuery("SELECT * FROM Memories WHERE id = ?",new String[] {String.valueOf(memoryId)});
+                    int nameIx = cursor.getColumnIndex("memoryName");
+                    int dateIx = cursor.getColumnIndex("date");
+                    int extraIx = cursor.getColumnIndex("extra");
+                    int imageIx = cursor.getColumnIndex("image");
 
-                int nameIx = cursor.getColumnIndex("memoryName");
-                int dateIx = cursor.getColumnIndex("date");
-                int extraIx = cursor.getColumnIndex("extra");
-                int imageIx = cursor.getColumnIndex("image");
+                    while (cursor.moveToNext()) {
 
-                while (cursor.moveToNext()) {
+                        binding.nameText.setText(cursor.getString(nameIx));
+                        binding.dateText.setText(cursor.getString(dateIx));
+                        binding.extraText.setText(cursor.getString(extraIx));
 
-                    binding.nameText.setText(cursor.getString(nameIx));
-                    binding.dateText.setText(cursor.getString(dateIx));
-                    binding.extraText.setText(cursor.getString(extraIx));
-
-                    byte[] bytes = cursor.getBlob(imageIx);
-                    Bitmap bitmap = BitmapFactory.decodeByteArray(bytes,0,bytes.length);
-                    binding.imageView.setImageBitmap(bitmap);
-
-
+                        byte[] bytes = cursor.getBlob(imageIx);
+                        Bitmap bitmap = BitmapFactory.decodeByteArray(bytes,0,bytes.length);
+                        binding.imageView.setImageBitmap(bitmap);
+                    }
+                    cursor.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
-
-                cursor.close();
-
-            } catch (Exception e) {
-                e.printStackTrace();
             }
+            if (binding.extraText.getText().toString().equals("") && binding.dateText.getText().toString().equals("")){
+                int memoryId = intent.getIntExtra("memoryId",1);
+                binding.newButton.setVisibility(View.INVISIBLE);
+                binding.extraText.setVisibility(View.GONE);
+
+                try {
+                    Cursor cursor = database.rawQuery("SELECT * FROM Memories WHERE id = ?",new String[] {String.valueOf(memoryId)});
+
+                    int nameIx = cursor.getColumnIndex("memoryName");
+                    int dateIx = cursor.getColumnIndex("date");
+                    int extraIx = cursor.getColumnIndex("extra");
+                    int imageIx = cursor.getColumnIndex("image");
+
+                    while (cursor.moveToNext()) {
+
+                        binding.nameText.setText(cursor.getString(nameIx));
+                        binding.dateText.setText(cursor.getString(dateIx));
+                        binding.extraText.setText(cursor.getString(extraIx));
+
+                        byte[] bytes = cursor.getBlob(imageIx);
+                        Bitmap bitmap = BitmapFactory.decodeByteArray(bytes,0,bytes.length);
+                        binding.imageView.setImageBitmap(bitmap);
+                    }
+                    cursor.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
         }
     }
 
@@ -231,11 +258,11 @@ public class ExplainActivity extends AppCompatActivity {
 
 
     public void save(View view) {
-        if (binding.nameText.getText().toString().isEmpty()){
+        if (binding.nameText.getText().toString().isEmpty() || binding.dateText.getText().toString().isEmpty()){
             /*Toast tost = Toast.makeText(ExplainActivity.this,"You Have to Fill Name Block",Toast.LENGTH_LONG);
             tost.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 150);
             tost.show();*/
-            Snackbar snack = Snackbar.make(view, "You Have to Fill Name Block", Snackbar.LENGTH_SHORT);
+            Snackbar snack = Snackbar.make(view, "You Have to Fill Name Block and Date Block", Snackbar.LENGTH_SHORT);
             View snackbarView = snack.getView();
             FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) snackbarView.getLayoutParams();
 
@@ -246,7 +273,6 @@ public class ExplainActivity extends AppCompatActivity {
             snack.show();
         }
         else {
-
             String name = binding.nameText.getText().toString();
             String date = binding.dateText.getText().toString();
             String extra = binding.extraText.getText().toString();
