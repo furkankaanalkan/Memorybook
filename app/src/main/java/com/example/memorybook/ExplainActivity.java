@@ -112,10 +112,13 @@ public class ExplainActivity extends AppCompatActivity {
 
             Bitmap selectImage = BitmapFactory.decodeResource(getApplicationContext().getResources(),R.drawable.selectimage);
             binding.imageView.setImageBitmap(selectImage);
-
-
         }
         else {
+            binding.nameText.setEnabled(false);
+            binding.dateText.setEnabled(false);
+            binding.extraText.setEnabled(false);
+            binding.imageView.setClickable(false);
+
             int memoryId = intent.getIntExtra("memoryId", 1);
 
             binding.newButton.setVisibility(View.GONE);
@@ -123,7 +126,6 @@ public class ExplainActivity extends AppCompatActivity {
 
             try {
                 Cursor cursor = database.rawQuery("SELECT * FROM Memories WHERE id = ?", new String[] {String.valueOf(memoryId)});
-
                 int nameIx = cursor.getColumnIndex("memoryName");
                 int dateIx = cursor.getColumnIndex("date");
                 int extraIx = cursor.getColumnIndex("extra");
@@ -132,7 +134,6 @@ public class ExplainActivity extends AppCompatActivity {
                 while (cursor.moveToNext()) {
                     binding.nameText.setText(cursor.getString(nameIx));
                     binding.dateText.setText(cursor.getString(dateIx));
-
                     String savedExtra = cursor.getString(extraIx);
                     if (savedExtra.trim().isEmpty()) {
                         binding.extraText.setVisibility(View.GONE);
@@ -150,7 +151,8 @@ public class ExplainActivity extends AppCompatActivity {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-    }
+        }
+
     }
     public void selectImage(View view) {
         //Android 13
@@ -252,71 +254,56 @@ public class ExplainActivity extends AppCompatActivity {
             String extra = binding.extraText.getText().toString();
 
             Bitmap smallImage = makeSmallerImage(selectedImage, 300);
-
             ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
             smallImage.compress(Bitmap.CompressFormat.PNG, 50, outputStream);
             byte[] byteArray = outputStream.toByteArray();
 
             try {
-
                 database = this.openOrCreateDatabase("Memories", MODE_PRIVATE, null);
-                database.execSQL("CREATE TABLE IF NOT EXISTS Memories (id INTEGER PRIMARY KEY,memoryName VARCHAR, date VARCHAR, extra VARCHAR, image BLOB)");
 
-                String sqlString = "INSERT INTO Memories (memoryName, date, extra, image) VALUES (?, ?, ?, ?)";
-                SQLiteStatement sqLiteStatement = database.compileStatement(sqlString);
-                sqLiteStatement.bindString(1, name);
-                sqLiteStatement.bindString(2, date);
-                sqLiteStatement.bindString(3, extra);
-                sqLiteStatement.bindBlob(4, byteArray);
-                sqLiteStatement.execute();
+                Intent intent = getIntent();
+                String info = intent.getStringExtra("info");
 
+                if (info.matches("new")) {
+                    database.execSQL("CREATE TABLE IF NOT EXISTS Memories (id INTEGER PRIMARY KEY,memoryName VARCHAR, date VARCHAR, extra VARCHAR, image BLOB)");
+                    String sqlString = "INSERT INTO Memories (memoryName, date, extra, image) VALUES (?, ?, ?, ?)";
+                    SQLiteStatement sqLiteStatement = database.compileStatement(sqlString);
+                    sqLiteStatement.bindString(1, name);
+                    sqLiteStatement.bindString(2, date);
+                    sqLiteStatement.bindString(3, extra);
+                    sqLiteStatement.bindBlob(4, byteArray);
+                    sqLiteStatement.execute();
+                } else {
+                    int memoryId = intent.getIntExtra("memoryId", -1);
+                    String sqlString = "UPDATE Memories SET memoryName = ?, date = ?, extra = ?, image = ? WHERE id = ?";
+                    SQLiteStatement sqLiteStatement = database.compileStatement(sqlString);
+                    sqLiteStatement.bindString(1, name);
+                    sqLiteStatement.bindString(2, date);
+                    sqLiteStatement.bindString(3, extra);
+                    sqLiteStatement.bindBlob(4, byteArray);
+                    sqLiteStatement.bindLong(5, memoryId);
+                    sqLiteStatement.execute();
+                }
 
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
             Intent intent = new Intent(ExplainActivity.this, MainActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
-            //finish();
         }
 
     }
     public void edit (View view){
-        String name = binding.nameText.getText().toString();
-        String date = binding.dateText.getText().toString();
-        String extra = binding.extraText.getText().toString();
+        binding.nameText.setEnabled(true);
+        binding.dateText.setEnabled(true);
+        binding.extraText.setEnabled(true);
+        binding.imageView.setClickable(true);
 
-        Bitmap smallImage = makeSmallerImage(selectedImage, 300);
+        binding.extraText.setVisibility(View.VISIBLE);
 
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        smallImage.compress(Bitmap.CompressFormat.PNG, 50, outputStream);
-        byte[] byteArray = outputStream.toByteArray();
-
-        try {
-            database = this.openOrCreateDatabase("Memories", MODE_PRIVATE, null);
-
-            int memoryId = getIntent().getIntExtra("memoryId", -1);
-
-            String sqlString = "UPDATE Memories SET memoryName = ?, date = ?, extra = ?, image = ? WHERE id = ?";
-            SQLiteStatement sqLiteStatement = database.compileStatement(sqlString);
-
-            sqLiteStatement.bindString(1, name);
-            sqLiteStatement.bindString(2, date);
-            sqLiteStatement.bindString(3, extra);
-            sqLiteStatement.bindBlob(4, byteArray);
-            sqLiteStatement.bindLong(5, memoryId);
-
-            sqLiteStatement.execute();
-
-            Intent intent = new Intent(ExplainActivity.this, MainActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            startActivity(intent);
-
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        binding.editButton.setVisibility(View.GONE);
+        binding.newButton.setVisibility(View.VISIBLE);
     }
     public Bitmap makeSmallerImage(Bitmap image, int maximumSize) {
 
