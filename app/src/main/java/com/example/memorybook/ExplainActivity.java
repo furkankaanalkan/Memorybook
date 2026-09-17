@@ -14,7 +14,9 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.view.Gravity;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -146,7 +148,6 @@ public class ExplainActivity extends AppCompatActivity {
         }
     }
 
-
     public void selectImage(View view) {
         //Android 13
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
@@ -230,40 +231,55 @@ public class ExplainActivity extends AppCompatActivity {
 
 
     public void save(View view) {
+        if (binding.nameText.getText().toString().isEmpty()){
+            /*Toast tost = Toast.makeText(ExplainActivity.this,"You Have to Fill Name Block",Toast.LENGTH_LONG);
+            tost.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 150);
+            tost.show();*/
+            Snackbar snack = Snackbar.make(view, "You Have to Fill Name Block", Snackbar.LENGTH_SHORT);
+            View snackbarView = snack.getView();
+            FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) snackbarView.getLayoutParams();
 
-        String name = binding.nameText.getText().toString();
-        String date = binding.dateText.getText().toString();
-        String extra = binding.extraText.getText().toString();
+            params.gravity = Gravity.TOP;
+            params.topMargin = 100;
 
-        Bitmap smallImage = makeSmallerImage(selectedImage,300);
-
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        smallImage.compress(Bitmap.CompressFormat.PNG,50,outputStream);
-        byte[] byteArray = outputStream.toByteArray();
-
-        try {
-
-            database = this.openOrCreateDatabase("Memories",MODE_PRIVATE,null);
-            database.execSQL("CREATE TABLE IF NOT EXISTS Memories (id INTEGER PRIMARY KEY,memoryName VARCHAR, date VARCHAR, extra VARCHAR, image BLOB)");
-
-            String sqlString = "INSERT INTO Memories (memoryName, date, extra, image) VALUES (?, ?, ?, ?)";
-            SQLiteStatement sqLiteStatement = database.compileStatement(sqlString);
-            sqLiteStatement.bindString(1,name);
-            sqLiteStatement.bindString(2,date);
-            sqLiteStatement.bindString(3,extra);
-            sqLiteStatement.bindBlob(4,byteArray);
-            sqLiteStatement.execute();
-
-
-        } catch (Exception e) {
-            e.printStackTrace();
+            snackbarView.setLayoutParams(params);
+            snack.show();
         }
+        else {
 
-        Intent intent = new Intent(ExplainActivity.this,MainActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(intent);
+            String name = binding.nameText.getText().toString();
+            String date = binding.dateText.getText().toString();
+            String extra = binding.extraText.getText().toString();
 
-        //finish();
+            Bitmap smallImage = makeSmallerImage(selectedImage, 300);
+
+            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+            smallImage.compress(Bitmap.CompressFormat.PNG, 50, outputStream);
+            byte[] byteArray = outputStream.toByteArray();
+
+            try {
+
+                database = this.openOrCreateDatabase("Memories", MODE_PRIVATE, null);
+                database.execSQL("CREATE TABLE IF NOT EXISTS Memories (id INTEGER PRIMARY KEY,memoryName VARCHAR, date VARCHAR, extra VARCHAR, image BLOB)");
+
+                String sqlString = "INSERT INTO Memories (memoryName, date, extra, image) VALUES (?, ?, ?, ?)";
+                SQLiteStatement sqLiteStatement = database.compileStatement(sqlString);
+                sqLiteStatement.bindString(1, name);
+                sqLiteStatement.bindString(2, date);
+                sqLiteStatement.bindString(3, extra);
+                sqLiteStatement.bindBlob(4, byteArray);
+                sqLiteStatement.execute();
+
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            Intent intent = new Intent(ExplainActivity.this, MainActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+            //finish();
+        }
 
     }
 
